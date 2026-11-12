@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Valve Train Assemblies: Learner Workbook</title>
+<style>
+:root{
+  color-scheme: light;
+  --ink:#1c1a24; --muted:#5f5a6e; --bg:#edeaf2; --line:#cfc9d9;
+  --purple:#5b1f7a; --purple-d:#3f1257; --tint:#f3ecf8;
+  --amber:#f2b705; --write:#fff8d6; --write-line:#d9b93a;
+  --inlet:#2f7fd1; --exh:#e0782a; --ovl:#7b3fa6;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.5 "Avenir Next","Segoe UI","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px}
+
+/* masthead */
+.masthead{background:var(--purple-d);color:#fff;padding:26px 0 24px}
+h1{font-size:clamp(1.6rem,4.6vw,2.3rem);line-height:1.15;margin:0 0 6px;font-weight:800;letter-spacing:-.01em}
+.sub{margin:0 0 18px;opacity:.85}
+.idrow{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.idrow label{display:block;font-size:.82rem;margin-bottom:3px;opacity:.9}
+.idrow input{width:100%;font:inherit;padding:9px 10px;border:0;border-bottom:3px solid var(--amber);
+  background:#fff;color:var(--ink);border-radius:6px 6px 0 0}
+details.how{background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px}
+details.how summary{cursor:pointer;font-weight:600}
+details.how ul{margin:8px 0 2px;padding-left:20px}
+details.how li{margin:3px 0}
+
+/* section navigation */
+nav.sections{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+nav.sections .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:6px;padding-bottom:6px;align-items:center}
+nav.sections a{flex:0 0 auto;padding:6px 11px;border-radius:999px;color:var(--ink);text-decoration:none;font-size:.9rem;border:1px solid transparent}
+nav.sections a:hover{background:var(--tint)}
+nav.sections a.done{border-color:var(--purple);color:var(--purple);font-weight:600}
+nav.sections a.done::before{content:"\2713\00a0"}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #8e55b0;outline-offset:2px}
+
+/* cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;margin:26px 0;overflow:hidden;scroll-margin-top:58px}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--purple);color:#fff;padding:12px 18px}
+.card-h h2{margin:0;font-size:1.15rem;line-height:1.3}
+.slides{font-weight:400;opacity:.85;font-size:.85rem;margin-left:8px;white-space:nowrap}
+.who{font-size:.8rem;opacity:.92;text-align:right}
+.card-b{padding:4px 18px 22px}
+h3{font-size:1rem;margin:24px 0 6px}
+p{margin:6px 0}
+.hint{color:var(--muted);font-size:.92rem;margin:2px 0 8px}
+.ql{margin:14px 0 5px;font-weight:600}
+
+/* answer fields */
+.ans{display:block;width:100%;font:inherit;line-height:1.45;padding:8px 10px;color:var(--ink);
+  border:1px solid var(--write-line);border-radius:6px;background:var(--write);resize:none;overflow:hidden}
+.ans:focus,.blank:focus,.pad-text:focus,.idrow input:focus{outline:3px solid #8e55b0;outline-offset:1px}
+.blank{font:inherit;padding:2px 6px;color:var(--ink);border:0;border-bottom:2px solid var(--write-line);
+  background:var(--write);border-radius:4px 4px 0 0;min-width:calc(var(--min,6) * 1ch);text-align:center;max-width:100%}
+.blank.num{width:4.2em;min-width:0}
+.dup{background:#ffd9d9;border-bottom-color:#c0392b}
+.dupnote{color:#a3261b;font-size:.88rem;min-height:1.2em;margin:4px 0 0}
+.fillbox{margin:8px 0;line-height:2.2}
+ul.gaps{list-style:none;padding:0;margin:6px 0}
+ul.gaps li{margin:6px 0;line-height:2.1;padding-left:18px;position:relative}
+ul.gaps li::before{content:"";position:absolute;left:2px;top:.8em;width:6px;height:6px;border-radius:50%;background:var(--purple)}
+.parts{display:flex;flex-wrap:wrap;gap:10px 18px;margin:8px 0}
+.parts label{display:flex;align-items:center;gap:6px}
+
+/* tables */
+.tablewrap{overflow-x:auto;margin:8px 0}
+table.grid{width:100%;border-collapse:collapse;min-width:520px;table-layout:fixed}
+table.grid th{background:var(--tint);text-align:left;padding:8px;border:1px solid var(--line);font-size:.9rem}
+table.grid td{border:1px solid var(--line);padding:4px;vertical-align:top}
+table.grid td.rh{font-weight:600;padding:8px;background:#faf8fc}
+table.grid td.c{text-align:center;vertical-align:middle}
+table.grid .ans{border:0;border-radius:0;min-height:3.1em}
+input[type=radio]{width:22px;height:22px;accent-color:var(--purple);cursor:pointer}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.pills label{cursor:pointer;position:relative}
+.pills input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.pills span{display:inline-block;padding:7px 15px;border:2px solid var(--line);border-radius:999px;background:#fff}
+.pills input:checked+span{background:var(--purple);border-color:var(--purple);color:#fff}
+.pills input:focus-visible+span{outline:3px solid #8e55b0;outline-offset:2px}
+
+/* drawing pads */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pad{margin:8px 0 4px}
+.pad-title{font-weight:600;margin:0 0 6px}
+.pad-tools{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.pad-tools button,.btn{font:inherit;font-size:.86rem;padding:6px 10px;color:var(--ink);background:#fff;
+  border:1px solid var(--line);border-radius:6px;cursor:pointer}
+.pad-tools button[aria-pressed=true]{border-color:var(--purple);background:var(--tint);box-shadow:inset 0 0 0 1px var(--purple)}
+.dot{display:inline-block;width:.8em;height:.8em;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1px solid rgba(0,0,0,.25)}
+.pad-wrap{position:relative;border:1px solid var(--write-line);border-radius:8px;overflow:hidden;
+  background-color:var(--write);background-image:radial-gradient(#e6cd68 1px,transparent 1.2px);background-size:22px 22px}
+.pad-wrap canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
+.pad-text{position:absolute;transform:translateY(-50%);font:600 16px "Segoe UI",system-ui,sans-serif;
+  border:1px dashed var(--purple);background:#fff;padding:1px 4px;min-width:7em;z-index:2}
+
+/* timing strips */
+.strip{margin:12px 0 4px}
+.srow{display:flex;align-items:center}
+.slab{flex:0 0 8.4rem;font-weight:600;font-size:.9rem;padding-right:8px}
+.sbox{flex:1;position:relative;margin-right:1.7rem}
+.scale,.dc{position:relative;height:1.15rem}
+.scale span,.dc span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.scale span{font-size:.75rem;color:var(--muted)}
+.dc span{font-size:.85rem;font-weight:700}
+.bands{display:grid;grid-template-columns:repeat(4,1fr);border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;margin:2px 0 6px}
+.bands div{background:var(--tint);text-align:center;padding:5px 2px;font-size:.88rem;border-right:1px solid var(--ink)}
+.bands div:last-child{border-right:0}
+.lane{margin-bottom:8px}
+.lane .slab .dot{margin-right:6px}
+.track{display:grid;grid-template-columns:repeat(72,1fr);height:38px;background:#fff;border:1.5px solid var(--ink);
+  border-radius:6px;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer}
+.cell{border-right:1px solid #ebe6f0}
+.cell.edge{border-right:2px solid #8a849a}
+.cell:last-child{border-right:0}
+.lane.inlet .cell.on{background:var(--inlet)}
+.lane.exh .cell.on{background:var(--exh)}
+.lane.both .cell.on{background:var(--ovl)}
+.strip-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:4px;flex-wrap:wrap}
+.strip-foot .hint{margin:0}
+
+/* footer */
+.foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:10px 0 60px;color:var(--muted);font-size:.9rem}
+.btn.danger{border-color:#c0392b;color:#a3261b}
+#status::before{content:"";display:inline-block;width:.6em;height:.6em;border-radius:50%;background:#2e9d57;margin-right:6px}
+#status.off::before{background:#c0392b}
+
+@media (max-width:640px){
+  .idrow{grid-template-columns:1fr 1fr}
+  .idrow div:first-child{grid-column:1 / -1}
+  .two{grid-template-columns:1fr}
+  .slab{flex-basis:5.6rem;font-size:.8rem}
+  .card-b{padding:2px 12px 18px}
+  .card-h{flex-direction:column;align-items:flex-start;gap:2px}
+  .who{text-align:left}
+}
+@media print{
+  nav.sections,details.how,.pad-tools,.strip-foot button,.foot,.btn{display:none !important}
+  body{background:#fff}
+  .card{break-inside:auto;border-color:#999}
+  .ql,h3{break-after:avoid}
+  .tablewrap,.pad,.strip{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <h1>Valve Train Assemblies: Learner Workbook</h1>
+    <p class="sub">Module 4 · Automotive: Components and Operation</p>
+    <div class="idrow">
+      <div><label for="nm">Name</label><input id="nm" data-k="hdr-name" autocomplete="name"></div>
+      <div><label for="dt">Date</label><input id="dt" data-k="hdr-date"></div>
+      <div><label for="grp">Group</label><input id="grp" data-k="hdr-group"></div>
+    </div>
+    <details class="how">
+      <summary>How to use this workbook</summary>
+      <ul>
+        <li>Fill in each box as the presentation runs. Answer first, then check against the slides.</li>
+        <li>If you were wrong, add your correction in a different colour. For drawings, switch to the red pen.</li>
+        <li>Your name and group appear at the top of every section, so you can screenshot one section at a time.</li>
+        <li>Your answers save on this device while you work. Use the same browser if you come back to it.</li>
+        <li>Screenshot shortcuts: Windows <b>Win + Shift + S</b> · Mac <b>Cmd + Shift + 4</b> · Chromebook <b>Ctrl + Shift + Show windows</b> · Phone: power and volume-up buttons.</li>
+      </ul>
+    </details>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Sections">
+  <div class="wrap">
+    <a href="#s1">Do now</a><a href="#s2">Valves</a><a href="#s3">Springs</a><a href="#s4">Cams</a>
+    <a href="#s5">Timing</a><a href="#s6">Followers</a><a href="#s7">OHV and OHC</a><a href="#s8">Plenary</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 -->
+<section class="card" id="s1">
+  <div class="card-h"><h2>1. Do now<span class="slides">Slide 1</span></h2><div class="who" data-who></div></div>
+  <div class="card-b">
+    <p class="hint">Write a first guess before the lesson starts. You will come back to it in Section 5.</p>
+    <p class="ql">How could an engine’s valves affect exhaust emissions?</p>
+    <textarea class="ans" rows="4" data-k="s1-guess" aria-label="Your first guess about valves and emissions"></textarea>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="s2">
+  <div class="card-h"><h2>2. Valves, face angle, exhaust valves and seals<span class="slides">Slides 2–6</span></h2><div class="who" data-who></div></div>
+  <div class="card-b">
+
+    <h3>A. Sketch a poppet valve from memory</h3>
+    <p class="hint">Label the head, face, stem and seat. Then compare with the slide and correct it in red.</p>
+    <div class="pad" data-id="valve" data-ratio="0.5"></div>
+
+    <h3>B. Answer, then check</h3>
+    <p class="ql">1. Why are valves made from heat-resistant steel?</p>
+    <textarea class="ans" rows="2" data-k="s2-b1" aria-label="Why heat-resistant steel"></textarea>
+    <p class="ql">2. What is stellite, and why is it useful in an unleaded-fuel engine?</p>
+    <textarea class="ans" rows="2" data-k="s2-b2" aria-label="What is stellite"></textarea>
+    <p class="ql">3. Why must the valve face and stem be accurately ground?</p>
+    <textarea class="ans" rows="2" data-k="s2-b3" aria-label="Why accurately ground"></textarea>
+
+    <h3>C. Face angle</h3>
+    <p class="fillbox">The two common valve face angles are <input class="blank num" data-k="s2-c1" aria-label="First face angle" inputmode="numeric">° and <input class="blank num" data-k="s2-c2" aria-label="Second face angle" inputmode="numeric">°.</p>
+    <p class="ql">A manufacturer makes the valve face about 1° different from the seat angle. Predict why.</p>
+    <textarea class="ans" rows="2" data-k="s2-c3" aria-label="Predict why the angles differ"></textarea>
+    <p class="fillbox">This is called the <input class="blank" data-min="14" data-k="s2-c4" aria-label="Name of the angle"> angle. Check against Slide 4.</p>
+
+    <h3>D. Hot or not?</h3>
+    <p class="hint">Pick the valve that fits each statement.</p>
+    <div class="tablewrap"><table class="grid">
+      <colgroup><col style="width:52%"><col style="width:16%"><col style="width:18%"><col style="width:14%"></colgroup>
+      <thead><tr><th>Statement</th><th>Inlet valve</th><th>Exhaust valve</th><th>Both</th></tr></thead>
+      <tbody>
+        <tr><td class="rh">Runs hotter</td>
+          <td class="c"><input type="radio" name="s2-hot1" value="inlet" aria-label="Runs hotter: inlet"></td>
+          <td class="c"><input type="radio" name="s2-hot1" value="exhaust" aria-label="Runs hotter: exhaust"></td>
+          <td class="c"><input type="radio" name="s2-hot1" value="both" aria-label="Runs hotter: both"></td></tr>
+        <tr><td class="rh">May have a thicker stem to move heat to the head</td>
+          <td class="c"><input type="radio" name="s2-hot2" value="inlet" aria-label="Thicker stem: inlet"></td>
+          <td class="c"><input type="radio" name="s2-hot2" value="exhaust" aria-label="Thicker stem: exhaust"></td>
+          <td class="c"><input type="radio" name="s2-hot2" value="both" aria-label="Thicker stem: both"></td></tr>
+        <tr><td class="rh">May be hollow and sodium-filled</td>
+          <td class="c"><input type="radio" name="s2-hot3" value="inlet" aria-label="Sodium-filled: inlet"></td>
+          <td class="c"><input type="radio" name="s2-hot3" value="exhaust" aria-label="Sodium-filled: exhaust"></td>
+          <td class="c"><input type="radio" name="s2-hot3" value="both" aria-label="Sodium-filled: both"></td></tr>
+        <tr><td class="rh">Face seats against the cylinder head</td>
+          <td class="c"><input type="radio" name="s2-hot4" value="inlet" aria-label="Face seats: inlet"></td>
+          <td class="c"><input type="radio" name="s2-hot4" value="exhaust" aria-label="Face seats: exhaust"></td>
+          <td class="c"><input type="radio" name="s2-hot4" value="both" aria-label="Face seats: both"></td></tr>
+      </tbody></table></div>
+
+    <h3>E. How does a sodium-filled valve cool itself?</h3>
+    <p class="hint">Explain in 3 sentences. Use the words <b><i>melts</i></b>, <b><i>thrown down</i></b> and <b><i>coolant</i></b>.</p>
+    <textarea class="ans" rows="5" data-k="s2-e" aria-label="Explain how a sodium-filled valve cools itself"></textarea>
+
+    <h3>F. Valve seals</h3>
+    <div class="tablewrap"><table class="grid">
+      <colgroup><col style="width:16%"><col style="width:28%"><col style="width:28%"><col style="width:28%"></colgroup>
+      <thead><tr><th>Seal type</th><th>Where it fits</th><th>What it stops</th><th>Extra part needed?</th></tr></thead>
+      <tbody>
+        <tr><td class="rh">Umbrella</td>
+          <td><textarea class="ans" rows="3" data-k="s2-f1a" aria-label="Umbrella seal: where it fits"></textarea></td>
+          <td><textarea class="ans" rows="3" data-k="s2-f1b" aria-label="Umbrella seal: what it stops"></textarea></td>
+          <td><textarea class="ans" rows="3" data-k="s2-f1c" aria-label="Umbrella seal: extra part"></textarea></td></tr>
+        <tr><td class="rh">O-ring</td>
+          <td><textarea class="ans" rows="3" data-k="s2-f2a" aria-label="O-ring seal: where it fits"></textarea></td>
+          <td><textarea class="ans" rows="3" data-k="s2-f2b" aria-label="O-ring seal: what it stops"></textarea></td>
+          <td><textarea class="ans" rows="3" data-k="s2-f2c" aria-label="O-ring seal: extra part"></textarea></td></tr>
+      </tbody></table></div>
+    <p class="ql">A car gives off blue smoke at start-up after standing overnight. Which valve component do you suspect?</p>
+    <textarea class="ans" rows="2" data-k="s2-f3" aria-label="Which component do you suspect"></textarea>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="s3">
+  <div class="card-h"><h2>3. Springs and valve float<span class="slides">Slides 7–9</span></h2><div class="who" data-who></div></div>
+  <div class="card-b">
+
+    <h3>A. Spring assembly order</h3>
+    <p class="hint">Number these parts 1 to 6, starting from the valve seat and working upwards. Use each number once.</p>
+    <div class="parts">
+      <label>cotters <input class="blank num" data-k="s3-a1" data-group="spring" data-max="6" inputmode="numeric" maxlength="1" aria-label="Order of cotters"></label>
+      <label>spring retainer <input class="blank num" data-k="s3-a2" data-group="spring" data-max="6" inputmode="numeric" maxlength="1" aria-label="Order of spring retainer"></label>
+      <label>spring seat <input class="blank num" data-k="s3-a3" data-group="spring" data-max="6" inputmode="numeric" maxlength="1" aria-label="Order of spring seat"></label>
+      <label>springs <input class="blank num" data-k="s3-a4" data-group="spring" data-max="6" inputmode="numeric" maxlength="1" aria-label="Order of springs"></label>
+      <label>oil seal <input class="blank num" data-k="s3-a5" data-group="spring" data-max="6" inputmode="numeric" maxlength="1" aria-label="Order of oil seal"></label>
+      <label>valve guide <input class="blank num" data-k="s3-a6" data-group="spring" data-max="6" inputmode="numeric" maxlength="1" aria-label="Order of valve guide"></label>
+    </div>
+    <p class="dupnote" data-dupnote="spring"></p>
+
+    <h3>B. Quick questions</h3>
+    <p class="ql">1. Why do some engines use a dual-coil spring?</p>
+    <textarea class="ans" rows="2" data-k="s3-b1" aria-label="Why dual-coil spring"></textarea>
+    <p class="ql">2. Define “free length”.</p>
+    <textarea class="ans" rows="2" data-k="s3-b2" aria-label="Define free length"></textarea>
+    <p class="ql">3. Is the spring longer with the valve open or closed?</p>
+    <div class="pills">
+      <label><input type="radio" name="s3-b3" value="open"><span>Open</span></label>
+      <label><input type="radio" name="s3-b3" value="closed"><span>Closed</span></label>
+    </div>
+    <p class="fillbox">4. Spring tension is quoted for specified <input class="blank" data-min="12" data-k="s3-b4" aria-label="Spring tension quoted for specified what"> of compression.</p>
+
+    <h3>C. Predict, then check</h3>
+    <p class="hint">At high rpm, the valve spring is weak.</p>
+    <div class="tablewrap"><table class="grid">
+      <colgroup><col style="width:36%"><col style="width:36%"><col style="width:28%"></colgroup>
+      <thead><tr><th>What I think will happen</th><th>What the driver would notice</th><th>Was I right?</th></tr></thead>
+      <tbody><tr>
+        <td><textarea class="ans" rows="4" data-k="s3-c1" aria-label="What I think will happen"></textarea></td>
+        <td><textarea class="ans" rows="4" data-k="s3-c2" aria-label="What the driver would notice"></textarea></td>
+        <td><textarea class="ans" rows="4" data-k="s3-c3" aria-label="Was I right"></textarea></td>
+      </tr></tbody></table></div>
+
+    <h3>D. Fill the gaps</h3>
+    <ul class="gaps">
+      <li>A weak spring causes valve <input class="blank" data-k="s3-d1" aria-label="Valve what"> at high <input class="blank" data-k="s3-d2" aria-label="At high what"></li>
+      <li>In the past, <input class="blank" data-k="s3-d3" aria-label="Used to take up lost spring height"> were used to take up lost spring height. Today a weak spring is <input class="blank" data-k="s3-d4" aria-label="Today a weak spring is"></li>
+      <li>A valve rotator prevents <input class="blank" data-k="s3-d5" aria-label="Prevents what build-up"> build-up and <input class="blank" data-k="s3-d6" aria-label="And what on the valve face"> on the valve face.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="s4">
+  <div class="card-h"><h2>4. Camshaft and cam operation<span class="slides">Slides 10–11</span></h2><div class="who" data-who></div></div>
+  <div class="card-b">
+
+    <h3>A. Label the cam</h3>
+    <p class="hint">Draw a cam lobe on a camshaft and add these labels: nose, base circle, flank, lift, duration, journal.</p>
+    <div class="pad" data-id="cam" data-ratio="0.5"></div>
+
+    <h3>B. Think, pair, share</h3>
+    <p class="fillbox">1. For every two turns of the crankshaft, the camshaft turns <input class="blank num" data-k="s4-b1" aria-label="Camshaft turns" inputmode="numeric"> time(s). Why?</p>
+    <textarea class="ans" rows="2" data-k="s4-b1why" aria-label="Why the camshaft turns that many times"></textarea>
+    <p class="ql">2. What changes if the cam nose is taller?</p>
+    <textarea class="ans" rows="2" data-k="s4-b2" aria-label="Taller cam nose"></textarea>
+    <p class="ql">3. What changes if the cam nose is wider?</p>
+    <textarea class="ans" rows="2" data-k="s4-b3" aria-label="Wider cam nose"></textarea>
+
+    <h3>C. Compare two cam profiles</h3>
+    <p class="hint">Use the cams or sketches your teacher shows you.</p>
+    <div class="tablewrap"><table class="grid">
+      <colgroup><col style="width:36%"><col style="width:32%"><col style="width:32%"></colgroup>
+      <thead><tr><th></th><th>Mild cam</th><th>Aggressive cam</th></tr></thead>
+      <tbody>
+        <tr><td class="rh">Opens the valve faster?</td>
+          <td><textarea class="ans" rows="2" data-k="s4-c1a" aria-label="Mild cam: opens valve faster"></textarea></td>
+          <td><textarea class="ans" rows="2" data-k="s4-c1b" aria-label="Aggressive cam: opens valve faster"></textarea></td></tr>
+        <tr><td class="rh">Holds the valve open longer?</td>
+          <td><textarea class="ans" rows="2" data-k="s4-c2a" aria-label="Mild cam: holds valve open longer"></textarea></td>
+          <td><textarea class="ans" rows="2" data-k="s4-c2b" aria-label="Aggressive cam: holds valve open longer"></textarea></td></tr>
+        <tr><td class="rh">Likely idle quality (smooth or rough)</td>
+          <td><textarea class="ans" rows="2" data-k="s4-c3a" aria-label="Mild cam: idle quality"></textarea></td>
+          <td><textarea class="ans" rows="2" data-k="s4-c3b" aria-label="Aggressive cam: idle quality"></textarea></td></tr>
+      </tbody></table></div>
+
+    <h3>D. Camshaft facts</h3>
+    <p class="fillbox">Camshafts are driven by a <input class="blank" data-k="s4-d1" aria-label="Driven by a"> or a <input class="blank" data-k="s4-d2" aria-label="Or a">.
+      The cam surface is <input class="blank" data-k="s4-d3" aria-label="Cam surface is"> to resist wear.
+      Camshaft journals sit in <input class="blank" data-k="s4-d4" aria-label="Journals sit in what bearings"> bearings, which are usually <input class="blank" data-k="s4-d5" aria-label="Usually what type"> type.</p>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="card" id="s5">
+  <div class="card-h"><h2>5. Valve timing cycle<span class="slides">Slide 12</span></h2><div class="who" data-who></div></div>
+  <div class="card-b">
+
+    <h3>A. Build the cycle before it is revealed</h3>
+    <p class="hint">Click or drag along each lane to shade where that valve is open. Shade the third lane where <b>both</b> are open (the overlap). Check against Slide 12, then correct it.</p>
+    <div class="strip" data-id="a"></div>
+
+    <h3>B. Real timing figures</h3>
+    <p class="hint">Each block on the strip is 10°. Shade to the nearest block.</p>
+    <div class="tablewrap"><table class="grid">
+      <colgroup><col style="width:30%"><col style="width:20%"><col style="width:50%"></colgroup>
+      <thead><tr><th>Event</th><th>Degrees</th><th>Stroke it falls in</th></tr></thead>
+      <tbody>
+        <tr><td class="rh">Inlet opens</td><td class="rh">12° BTDC</td><td><textarea class="ans" rows="1" data-k="s5-b1" aria-label="Inlet opens: stroke"></textarea></td></tr>
+        <tr><td class="rh">Inlet closes</td><td class="rh">40° ABDC</td><td><textarea class="ans" rows="1" data-k="s5-b2" aria-label="Inlet closes: stroke"></textarea></td></tr>
+        <tr><td class="rh">Exhaust opens</td><td class="rh">50° BBDC</td><td><textarea class="ans" rows="1" data-k="s5-b3" aria-label="Exhaust opens: stroke"></textarea></td></tr>
+        <tr><td class="rh">Exhaust closes</td><td class="rh">10° ATDC</td><td><textarea class="ans" rows="1" data-k="s5-b4" aria-label="Exhaust closes: stroke"></textarea></td></tr>
+      </tbody></table></div>
+    <div class="strip" data-id="b"></div>
+    <p class="fillbox">Overlap lasts <input class="blank num" data-k="s5-ov1" aria-label="Overlap degrees" inputmode="numeric">° of crankshaft rotation (inlet opens <input class="blank num" data-k="s5-ov2" aria-label="Inlet opens degrees before TDC" inputmode="numeric">° before TDC, exhaust closes <input class="blank num" data-k="s5-ov3" aria-label="Exhaust closes degrees after TDC" inputmode="numeric">° after TDC).</p>
+
+    <h3>C. Prove it</h3>
+    <p class="ql">1. During which two strokes are both valves closed?</p>
+    <textarea class="ans" rows="1" data-k="s5-c1" aria-label="Both valves closed during which strokes"></textarea>
+    <p class="ql">2. Why does the inlet valve open before TDC?</p>
+    <textarea class="ans" rows="2" data-k="s5-c2" aria-label="Why inlet opens before TDC"></textarea>
+    <p class="ql">3. Why does the inlet valve close after BDC?</p>
+    <textarea class="ans" rows="2" data-k="s5-c3" aria-label="Why inlet closes after BDC"></textarea>
+    <p class="ql">4. What is overlap, and what is its benefit?</p>
+    <textarea class="ans" rows="2" data-k="s5-c4" aria-label="What is overlap and its benefit"></textarea>
+
+    <h3>D. Back to your Do Now</h3>
+    <p class="ql">Look at your guess in Section 1. Was it:</p>
+    <div class="pills">
+      <label><input type="radio" name="s5-guess" value="right"><span>Right</span></label>
+      <label><input type="radio" name="s5-guess" value="partly"><span>Partly right</span></label>
+      <label><input type="radio" name="s5-guess" value="not"><span>Not right</span></label>
+    </div>
+    <p class="ql">Now that you know about overlap, how could valve timing affect emissions?</p>
+    <textarea class="ans" rows="4" data-k="s5-d" aria-label="How valve timing could affect emissions"></textarea>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="card" id="s6">
+  <div class="card-h"><h2>6. Cam followers and rocker arms<span class="slides">Slides 13–16</span></h2><div class="who" data-who></div></div>
+  <div class="card-b">
+
+    <h3>A. Complete the comparison grid as each type is presented</h3>
+    <div class="tablewrap"><table class="grid">
+      <colgroup><col style="width:19%"><col style="width:31%"><col style="width:25%"><col style="width:25%"></colgroup>
+      <thead><tr><th>Follower type</th><th>How it works</th><th>Needs regular adjustment?</th><th>Main advantage</th></tr></thead>
+      <tbody>
+        <tr><td class="rh">Mechanical (solid)</td>
+          <td><textarea class="ans" rows="4" data-k="s6-a1a" aria-label="Mechanical: how it works"></textarea></td>
+          <td><textarea class="ans" rows="4" data-k="s6-a1b" aria-label="Mechanical: needs adjustment"></textarea></td>
+          <td><textarea class="ans" rows="4" data-k="s6-a1c" aria-label="Mechanical: advantage"></textarea></td></tr>
+        <tr><td class="rh">Hydraulic</td>
+          <td><textarea class="ans" rows="4" data-k="s6-a2a" aria-label="Hydraulic: how it works"></textarea></td>
+          <td><textarea class="ans" rows="4" data-k="s6-a2b" aria-label="Hydraulic: needs adjustment"></textarea></td>
+          <td><textarea class="ans" rows="4" data-k="s6-a2c" aria-label="Hydraulic: advantage"></textarea></td></tr>
+        <tr><td class="rh">Roller</td>
+          <td><textarea class="ans" rows="4" data-k="s6-a3a" aria-label="Roller: how it works"></textarea></td>
+          <td><textarea class="ans" rows="4" data-k="s6-a3b" aria-label="Roller: needs adjustment"></textarea></td>
+          <td><textarea class="ans" rows="4" data-k="s6-a3c" aria-label="Roller: advantage"></textarea></td></tr>
+        <tr><td class="rh">Cup type</td>
+          <td><textarea class="ans" rows="4" data-k="s6-a4a" aria-label="Cup type: how it works"></textarea></td>
+          <td><textarea class="ans" rows="4" data-k="s6-a4b" aria-label="Cup type: needs adjustment"></textarea></td>
+          <td><textarea class="ans" rows="4" data-k="s6-a4c" aria-label="Cup type: advantage"></textarea></td></tr>
+      </tbody></table></div>
+
+    <h3>B. Spot the difference</h3>
+    <p class="hint">Give two clues that tell a mechanical follower from a hydraulic one.</p>
+    <textarea class="ans" rows="1" data-k="s6-b1" aria-label="Clue 1"></textarea>
+    <div style="height:6px"></div>
+    <textarea class="ans" rows="1" data-k="s6-b2" aria-label="Clue 2"></textarea>
+
+    <h3>C. Scenario</h3>
+    <p class="ql">A customer says the engine ticks when cold and goes quiet when warm. Which follower type might be involved, and why?</p>
+    <textarea class="ans" rows="3" data-k="s6-c" aria-label="Scenario answer"></textarea>
+
+    <h3>D. Rocker arm lever challenge</h3>
+    <p>A push rod lifts <b>8 mm</b> and the rocker ratio is <b>1.5 : 1</b>.</p>
+    <p class="fillbox">Valve lift = <input class="blank num" data-k="s6-d1" aria-label="Push rod lift" inputmode="decimal"> mm × <input class="blank num" data-k="s6-d2" aria-label="Rocker ratio" inputmode="decimal"> = <input class="blank num" data-k="s6-d3" aria-label="Valve lift" inputmode="decimal"> mm</p>
+    <p class="ql">What does the adjusting screw on the rocker arm do?</p>
+    <textarea class="ans" rows="2" data-k="s6-d4" aria-label="What the adjusting screw does"></textarea>
+
+    <h3>E. Which part does what?</h3>
+    <p class="hint">Write what each part does in your own words.</p>
+    <div class="tablewrap"><table class="grid">
+      <colgroup><col style="width:25%"><col style="width:75%"></colgroup>
+      <thead><tr><th>Part</th><th>Job</th></tr></thead>
+      <tbody>
+        <tr><td class="rh">Cam follower</td><td><textarea class="ans" rows="2" data-k="s6-e1" aria-label="Cam follower job"></textarea></td></tr>
+        <tr><td class="rh">Push rod</td><td><textarea class="ans" rows="2" data-k="s6-e2" aria-label="Push rod job"></textarea></td></tr>
+        <tr><td class="rh">Rocker arm</td><td><textarea class="ans" rows="2" data-k="s6-e3" aria-label="Rocker arm job"></textarea></td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="card" id="s7">
+  <div class="card-h"><h2>7. Overhead valve (OHV) and overhead cam (OHC)<span class="slides">Slides 17–18</span></h2><div class="who" data-who></div></div>
+  <div class="card-b">
+
+    <h3>A. Draw and compare</h3>
+    <p class="hint">Sketch the valve train for each layout and label every part between the cam and the valve.</p>
+    <div class="two">
+      <div><p class="pad-title">OHV (cam-in-block)</p><div class="pad" data-id="ohv" data-ratio="0.95"></div></div>
+      <div><p class="pad-title">OHC</p><div class="pad" data-id="ohc" data-ratio="0.95"></div></div>
+    </div>
+
+    <h3>B. List the chain of parts from cam to valve, in order</h3>
+    <div class="tablewrap"><table class="grid">
+      <colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+      <thead><tr><th>Layout</th><th>Parts from cam to valve, in order</th></tr></thead>
+      <tbody>
+        <tr><td class="rh">OHV</td><td><textarea class="ans" rows="2" data-k="s7-b1" aria-label="OHV chain of parts"></textarea></td></tr>
+        <tr><td class="rh">OHC</td><td><textarea class="ans" rows="2" data-k="s7-b2" aria-label="OHC chain of parts"></textarea></td></tr>
+      </tbody></table></div>
+
+    <h3>C. Odd one out</h3>
+    <p class="fillbox">Which part does <b>not</b> belong in an OHC valve train? <input class="blank" data-min="14" data-k="s7-c1" aria-label="Odd one out part"></p>
+    <p class="fillbox">Which layout is also known as a “cam-in-block” engine? <input class="blank" data-min="10" data-k="s7-c2" aria-label="Cam-in-block layout"></p>
+    <p class="fillbox">Which layout is more common in modern engines? <input class="blank" data-min="10" data-k="s7-c3" aria-label="More common layout"></p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="card" id="s8">
+  <div class="card-h"><h2>8. Plenary: prove it</h2><div class="who" data-who></div></div>
+  <div class="card-b">
+
+    <h3>A. Chain of events</h3>
+    <p class="hint">Number these 1 to 9 to show the order of movement from the engine’s crankshaft to a closed valve. Use each number once.</p>
+    <div class="parts" style="flex-direction:column;gap:8px">
+      <label><input class="blank num" data-k="s8-a1" data-group="chain" data-max="9" inputmode="numeric" maxlength="1" aria-label="Order of rocker arm"> Rocker arm</label>
+      <label><input class="blank num" data-k="s8-a2" data-group="chain" data-max="9" inputmode="numeric" maxlength="1" aria-label="Order of valve opens"> Valve opens</label>
+      <label><input class="blank num" data-k="s8-a3" data-group="chain" data-max="9" inputmode="numeric" maxlength="1" aria-label="Order of cam lobe"> Cam lobe</label>
+      <label><input class="blank num" data-k="s8-a4" data-group="chain" data-max="9" inputmode="numeric" maxlength="1" aria-label="Order of crankshaft"> Crankshaft</label>
+      <label><input class="blank num" data-k="s8-a5" data-group="chain" data-max="9" inputmode="numeric" maxlength="1" aria-label="Order of valve spring closes the valve"> Valve spring closes the valve</label>
+      <label><input class="blank num" data-k="s8-a6" data-group="chain" data-max="9" inputmode="numeric" maxlength="1" aria-label="Order of camshaft"> Camshaft</label>
+      <label><input class="blank num" data-k="s8-a7" data-group="chain" data-max="9" inputmode="numeric" maxlength="1" aria-label="Order of belt or chain"> Belt or chain</label>
+      <label><input class="blank num" data-k="s8-a8" data-group="chain" data-max="9" inputmode="numeric" maxlength="1" aria-label="Order of cam follower"> Cam follower</label>
+      <label><input class="blank num" data-k="s8-a9" data-group="chain" data-max="9" inputmode="numeric" maxlength="1" aria-label="Order of push rod"> Push rod (OHV engines only)</label>
+    </div>
+    <p class="dupnote" data-dupnote="chain"></p>
+
+    <h3>B. Teach-back</h3>
+    <p class="hint">Your teacher gives your pair a topic card. Prepare a 60-second explanation with no notes. Write your topic and three key words here.</p>
+    <p class="fillbox">Topic: <input class="blank" data-min="16" data-k="s8-b0" aria-label="Teach-back topic"></p>
+    <p class="fillbox">Key words: <input class="blank" data-min="10" data-k="s8-b1" aria-label="Key word 1"> <input class="blank" data-min="10" data-k="s8-b2" aria-label="Key word 2"> <input class="blank" data-min="10" data-k="s8-b3" aria-label="Key word 3"></p>
+
+    <h3>C. Exit ticket</h3>
+    <p class="ql">3 things I learned</p>
+    <textarea class="ans" rows="4" data-k="s8-c1" aria-label="Three things I learned"></textarea>
+    <p class="ql">2 things I am still unsure about</p>
+    <textarea class="ans" rows="3" data-k="s8-c2" aria-label="Two things I am unsure about"></textarea>
+    <p class="ql">1 thing I want to see in the workshop</p>
+    <textarea class="ans" rows="2" data-k="s8-c3" aria-label="One thing I want to see in the workshop"></textarea>
+  </div>
+</section>
+
+<div class="foot">
+  <span id="status">Saved on this device</span>
+  <span>
+    <button class="btn" type="button" id="printBtn">Save as PDF</button>
+    <button class="btn danger" type="button" id="clearBtn">Clear all my answers</button>
+  </span>
+</div>
+
+</main>
+
+<script>
+(() => {
+  'use strict';
+  const KEY = 'valvetrain-workbook-v1';
+  let data = {};
+  let storageOK = true;
+  try { const raw = localStorage.getItem(KEY); if (raw) data = JSON.parse(raw) || {}; }
+  catch (e) { storageOK = false; data = {}; }
+
+  const statusEl = document.getElementById('status');
+  function setStatus(ok) {
+    statusEl.textContent = ok ? 'Saved on this device' : 'Not saving: your answers will be lost if you close this page';
+    statusEl.classList.toggle('off', !ok);
+  }
+  if (!storageOK) setStatus(false);
+
+  let timer;
+  function save() {
+    updateNav();
+    if (!storageOK) return;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      try { localStorage.setItem(KEY, JSON.stringify(data)); setStatus(true); }
+      catch (e) { storageOK = false; setStatus(false); }
+    }, 250);
+  }
+
+  /* ---------- auto-sizing ---------- */
+  const meter = document.createElement('span');
+  meter.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;left:-9999px;top:0';
+  document.body.appendChild(meter);
+  function fit(el) {
+    if (el.tagName === 'TEXTAREA') {
+      el.style.height = 'auto';
+      el.style.height = (el.scrollHeight + 2) + 'px';
+    } else if (el.classList.contains('blank') && !el.classList.contains('num')) {
+      const cs = getComputedStyle(el);
+      meter.style.font = cs.font;
+      meter.textContent = el.value || '';
+      el.style.width = Math.ceil(meter.offsetWidth + 22) + 'px';
+    }
+  }
+
+  /* ---------- text fields ---------- */
+  const fields = document.querySelectorAll('textarea[data-k], input[data-k]');
+  fields.forEach(el => {
+    const k = el.dataset.k;
+    if (el.dataset.min) el.style.setProperty('--min', el.dataset.min);
+    if (typeof data[k] === 'string') el.value = data[k];
+    el.addEventListener('input', () => {
+      if (el.dataset.group) el.value = el.value.replace(/\D/g, '');
+      data[k] = el.value;
+      fit(el);
+      if (el.dataset.group) checkGroup(el.dataset.group);
+      mirror();
+      save();
+    });
+    fit(el);
+  });
+  const dt = document.getElementById('dt');
+  if (!dt.value) {
+    dt.value = new Date().toLocaleDateString('en-GB');
+    data['hdr-date'] = dt.value;
+  }
+  window.addEventListener('resize', () => document.querySelectorAll('textarea.ans').forEach(fit));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fields.forEach(fit));
+
+  /* ---------- number groups (each number once) ---------- */
+  function checkGroup(g) {
+    const inputs = [...document.querySelectorAll(`input[data-group="${g}"]`)];
+    const counts = {};
+    inputs.forEach(i => { if (i.value) counts[i.value] = (counts[i.value] || 0) + 1; });
+    const max = Number(inputs[0].dataset.max);
+    let dups = false, range = false;
+    inputs.forEach(i => {
+      const n = Number(i.value);
+      const bad = (i.value && counts[i.value] > 1);
+      const out = (i.value && (n < 1 || n > max));
+      i.classList.toggle('dup', !!(bad || out));
+      if (bad) dups = true; if (out) range = true;
+    });
+    const note = document.querySelector(`[data-dupnote="${g}"]`);
+    note.textContent = range ? `Use numbers 1 to ${max} only.` : (dups ? 'A number is used twice. Each number should be used once.' : '');
+  }
+  ['spring', 'chain'].forEach(checkGroup);
+
+  /* ---------- radios ---------- */
+  document.querySelectorAll('input[type=radio]').forEach(r => {
+    if (data[r.name] === r.value) r.checked = true;
+    r.addEventListener('change', () => { if (r.checked) { data[r.name] = r.value; save(); } });
+  });
+
+  /* ---------- name mirror ---------- */
+  function mirror() {
+    const nm = (data['hdr-name'] || '').trim(), gp = (data['hdr-group'] || '').trim();
+    const text = [nm, gp].filter(Boolean).join(' · ');
+    document.querySelectorAll('[data-who]').forEach(w => { w.textContent = text; });
+  }
+  mirror();
+
+  /* ---------- timing strips ---------- */
+  const N = 72;
+  document.querySelectorAll('.strip').forEach(strip => {
+    const id = strip.dataset.id;
+    const lanes = [
+      ['inlet', 'Inlet valve open', 'var(--inlet)'],
+      ['exh', 'Exhaust valve open', 'var(--exh)'],
+      ['both', 'Both open (overlap)', 'var(--ovl)']
+    ];
+    const marks = (items) => items.map(([p, t]) => `<span style="left:${p}%">${t}</span>`).join('');
+    strip.innerHTML = `
+      <div class="srow"><div class="slab"></div><div class="sbox"><div class="scale">${marks([[0,'0°'],[25,'180°'],[50,'360°'],[75,'540°'],[100,'720°']])}</div></div></div>
+      <div class="srow"><div class="slab"></div><div class="sbox"><div class="dc">${marks([[0,'TDC'],[25,'BDC'],[50,'TDC'],[75,'BDC'],[100,'TDC']])}</div></div></div>
+      <div class="srow"><div class="slab"></div><div class="sbox"><div class="bands"><div>Intake</div><div>Compression</div><div>Power</div><div>Exhaust</div></div></div></div>
+      ${lanes.map(([c, label, col]) => `
+        <div class="srow lane ${c}" data-lane="${c}"><div class="slab"><span class="dot" style="background:${col}"></span>${label}</div>
+        <div class="sbox"><div class="track" role="group" aria-label="${label}, 720 degrees in ${N} blocks of 10 degrees"></div></div></div>`).join('')}
+      <div class="strip-foot"><p class="hint">Click a block to shade it, or drag across several.</p><button class="btn" type="button">Clear this strip</button></div>`;
+
+    strip.querySelectorAll('.lane').forEach(lane => {
+      const key = `strip:${id}:${lane.dataset.lane}`;
+      const track = lane.querySelector('.track');
+      const saved = typeof data[key] === 'string' ? data[key] : '';
+      for (let i = 0; i < N; i++) {
+        const c = document.createElement('div');
+        c.className = 'cell' + ((i + 1) % 18 === 0 && i < N - 1 ? ' edge' : '') + (saved[i] === '1' ? ' on' : '');
+        track.appendChild(c);
+      }
+      let painting = false, mode = true, last = -1;
+      const store = () => { data[key] = [...track.children].map(c => c.classList.contains('on') ? '1' : '0').join(''); save(); };
+      const idxAt = x => {
+        const r = track.getBoundingClientRect();
+        return Math.max(0, Math.min(N - 1, Math.floor((x - r.left) / r.width * N)));
+      };
+      track.addEventListener('pointerdown', e => {
+        const i = idxAt(e.clientX), c = track.children[i];
+        painting = true; mode = !c.classList.contains('on'); last = i;
+        c.classList.toggle('on', mode);
+        track.setPointerCapture(e.pointerId); e.preventDefault();
+      });
+      track.addEventListener('pointermove', e => {
+        if (!painting) return;
+        const i = idxAt(e.clientX);
+        if (i === last) return;
+        const from = Math.min(i, last), to = Math.max(i, last);
+        for (let k = from; k <= to; k++) track.children[k].classList.toggle('on', mode);
+        last = i;
+      });
+      const end = () => { if (painting) { painting = false; store(); } };
+      track.addEventListener('pointerup', end);
+      track.addEventListener('pointercancel', end);
+    });
+    strip.querySelector('.strip-foot button').addEventListener('click', () => {
+      strip.querySelectorAll('.lane').forEach(lane => {
+        lane.querySelectorAll('.cell').forEach(c => c.classList.remove('on'));
+        data[`strip:${id}:${lane.dataset.lane}`] = '0'.repeat(N);
+      });
+      save();
+    });
+  });
+
+  /* ---------- drawing pads ---------- */
+  const COL = { black: '#1c1a24', blue: '#1f5fbf', red: '#d12b2b' };
+  document.querySelectorAll('.pad').forEach(pad => {
+    const key = 'pad:' + pad.dataset.id;
+    const ratio = parseFloat(pad.dataset.ratio || '0.5');
+    pad.innerHTML = `
+      <div class="pad-tools">
+        <button type="button" data-c="black" aria-pressed="true"><span class="dot" style="background:${COL.black}"></span>Black pen</button>
+        <button type="button" data-c="blue" aria-pressed="false"><span class="dot" style="background:${COL.blue}"></span>Blue pen</button>
+        <button type="button" data-c="red" aria-pressed="false"><span class="dot" style="background:${COL.red}"></span>Red pen (corrections)</button>
+        <button type="button" data-m="text" aria-pressed="false">Add label</button>
+        <button type="button" data-a="undo">Undo</button>
+        <button type="button" data-a="clear">Clear</button>
+      </div>
+      <div class="pad-wrap"><canvas aria-label="Drawing area"></canvas></div>`;
+    const wrap = pad.querySelector('.pad-wrap');
+    const cv = pad.querySelector('canvas');
+    const ctx = cv.getContext('2d');
+    let items = Array.isArray(data[key]) ? data[key] : [];
+    let color = 'black', textMode = false, cur = null;
+
+    const dims = () => { const dpr = window.devicePixelRatio || 1; return { dpr, w: cv.width / dpr, h: cv.height / dpr }; };
+    function size() {
+      const w = wrap.clientWidth; if (!w) return;
+      const dpr = window.devicePixelRatio || 1;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(w * ratio * dpr);
+      cv.style.height = (w * ratio) + 'px';
+      redraw();
+    }
+    function drawItem(it, w, h) {
+      ctx.strokeStyle = ctx.fillStyle = COL[it.c] || COL.black;
+      if (it.t === 's') {
+        ctx.lineWidth = 2.4; ctx.beginPath();
+        it.p.forEach(([x, y], i) => i ? ctx.lineTo(x * w, y * h) : ctx.moveTo(x * w, y * h));
+        if (it.p.length === 1) ctx.lineTo(it.p[0][0] * w + 0.1, it.p[0][1] * h);
+        ctx.stroke();
+      } else {
+        ctx.font = '600 16px "Segoe UI", system-ui, sans-serif'; ctx.textBaseline = 'middle';
+        ctx.fillText(it.s, it.x * w, it.y * h);
+      }
+    }
+    function redraw() {
+      const { dpr, w, h } = dims();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      items.forEach(it => drawItem(it, w, h));
+    }
+    const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; };
+    const persist = () => { data[key] = items; save(); };
+
+    cv.addEventListener('pointerdown', e => {
+      if (textMode) { e.preventDefault(); startText(e); return; }
+      cv.setPointerCapture(e.pointerId);
+      cur = { t: 's', c: color, p: [pos(e)] };
+      items.push(cur);
+      const { w, h } = dims(); drawItem(cur, w, h);
+      e.preventDefault();
+    });
+    cv.addEventListener('pointermove', e => {
+      if (!cur) return;
+      const p = pos(e), last = cur.p[cur.p.length - 1];
+      cur.p.push(p);
+      const { w, h } = dims();
+      ctx.strokeStyle = COL[cur.c]; ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(last[0] * w, last[1] * h); ctx.lineTo(p[0] * w, p[1] * h); ctx.stroke();
+    });
+    const endStroke = () => { if (cur) { cur = null; persist(); } };
+    cv.addEventListener('pointerup', endStroke);
+    cv.addEventListener('pointercancel', endStroke);
+
+    function startText(e) {
+      const [nx, ny] = pos(e);
+      const r = cv.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+      const inp = document.createElement('input');
+      inp.className = 'pad-text'; inp.setAttribute('aria-label', 'Label text'); inp.maxLength = 40;
+      inp.style.left = Math.min(r.left - wr.left + nx * r.width, wr.width - 130) + 'px';
+      inp.style.top = (r.top - wr.top + ny * r.height) + 'px';
+      wrap.appendChild(inp); inp.focus();
+      let done = false;
+      const finish = commit => {
+        if (done) return; done = true;
+        const s = inp.value.trim(); inp.remove();
+        if (commit && s) { items.push({ t: 'x', c: color, s, x: nx, y: ny }); redraw(); persist(); }
+      };
+      inp.addEventListener('keydown', ev => { if (ev.key === 'Enter') finish(true); if (ev.key === 'Escape') finish(false); });
+      inp.addEventListener('blur', () => finish(true));
+    }
+
+    pad.querySelectorAll('.pad-tools button').forEach(b => b.addEventListener('click', () => {
+      if (b.dataset.c) {
+        color = b.dataset.c; textMode = false;
+      } else if (b.dataset.m === 'text') {
+        textMode = !textMode;
+      } else if (b.dataset.a === 'undo') {
+        items.pop(); redraw(); persist();
+      } else if (b.dataset.a === 'clear') {
+        if (!items.length || confirm('Clear this drawing?')) { items = []; redraw(); persist(); }
+      }
+      pad.querySelectorAll('[data-c]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.c === color && !textMode)));
+      pad.querySelector('[data-m]').setAttribute('aria-pressed', String(textMode));
+      cv.style.cursor = textMode ? 'text' : 'crosshair';
+    }));
+
+    if ('ResizeObserver' in window) new ResizeObserver(size).observe(wrap);
+    else window.addEventListener('resize', size);
+    size();
+  });
+
+  /* ---------- section progress ---------- */
+  function updateNav() {
+    document.querySelectorAll('main section.card').forEach(sec => {
+      const filled =
+        [...sec.querySelectorAll('textarea[data-k], input[data-k]')].some(i => i.value.trim()) ||
+        [...sec.querySelectorAll('input[type=radio]')].some(r => r.checked) ||
+        !!sec.querySelector('.cell.on') ||
+        [...sec.querySelectorAll('.pad')].some(p => (data['pad:' + p.dataset.id] || []).length);
+      const link = document.querySelector(`nav.sections a[href="#${sec.id}"]`);
+      if (link) link.classList.toggle('done', filled);
+    });
+  }
+  updateNav();
+
+  /* ---------- footer buttons ---------- */
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    if (!confirm('Clear all your answers? This cannot be undone.')) return;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  });
+})();
+</script>
+</body>
+</html>
